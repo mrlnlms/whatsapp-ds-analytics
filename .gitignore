@@ -95,4 +95,3 @@ ehthumbs.db
 **/*.quarto_ipynb
 .env
 _freeze/
-_freeze/

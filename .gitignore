@@ -93,3 +93,6 @@ ehthumbs.db
 
 /.quarto/
 **/*.quarto_ipynb
+.env
+_freeze/
+_freeze/

@@ -4,13 +4,13 @@
 
 ## 📋 Sobre
 
-Este projeto demonstra um pipeline completo de **Data Science**, desde a investigação inicial de dados brutos até análises avançadas com clustering e visualizações. O caso de estudo é um export do WhatsApp com ~92.000 mensagens ao longo de 1 ano.
+Este projeto demonstra um pipeline completo de **Data Science**, desde a investigação inicial de dados brutos até análises avançadas com clustering e visualizações. O caso de estudo é um export do WhatsApp com \~92.000 mensagens ao longo de 1 ano.
 
 O projeto foi desenvolvido para ser **reprodutível** — permite rodar o pipeline com novos exports e integrar os resultados à base existente.
 
 ## 🔄 Pipeline
 
-![](assets/images/ds-pipeline-to-insight.png)
+![](./assets/images/ds-pipeline-to-insight.png)
 
 ### Etapas detalhadas
 
@@ -25,6 +25,7 @@ O projeto foi desenvolvido para ser **reprodutível** — permite rodar o pipeli
 |  | Avançada | Clustering, PCA, radar charts |
 
 ## 📁 Estrutura
+
 ```         
 whatsapp-ds-analytics/
 │
@@ -65,7 +66,8 @@ whatsapp-ds-analytics/
 ```
 
 ## 🚀 Quick Start
-```bash
+
+``` bash
 # Clone e configure
 git clone https://github.com/mrlnlms/whatsapp-ds-analytics.git
 cd whatsapp-ds-analytics
@@ -133,6 +135,6 @@ Veja o [Guia de Setup](docs/SETUP-GUIDE.md) completo para mais detalhes.
 
 Os dados (`data/` e `analysis/`) **não são versionados** por conterem informações pessoais.
 
----
+------------------------------------------------------------------------
 
-*Desenvolvido por [@mrlnlms](https://github.com/mrlnlms)*
+*Desenvolvido por [\@mrlnlms](https://github.com/mrlnlms)*

@@ -95,3 +95,4 @@ ehthumbs.db
 **/*.quarto_ipynb
 .env
 _freeze/
+parking-lot.md

@@ -557,6 +557,9 @@ def export_optimized(
         - csv_minimal: 4 colunas mínimas (lightweight)
         - parquet: 8 colunas com tipos otimizados (performance)
         - parquet_minimal: 4 colunas (máxima performance)
+        
+    Nota:
+        Parquet requer pyarrow: pip install pyarrow
     """
     if formats is None:
         formats = ['csv_full', 'csv_core', 'parquet']
@@ -565,6 +568,15 @@ def export_optimized(
     output_dir.mkdir(parents=True, exist_ok=True)
     
     outputs = {}
+    
+    # Verifica se pyarrow está disponível
+    parquet_available = True
+    try:
+        import pyarrow
+    except ImportError:
+        parquet_available = False
+        if any('parquet' in f for f in formats):
+            print("⚠️ pyarrow não instalado. Parquet será ignorado. Instale com: pip install pyarrow")
     
     if show_progress:
         print("📦 Exportando datasets otimizados...\n")
@@ -596,6 +608,10 @@ def export_optimized(
         return [c for c in columns if c in df.columns]
     
     for fmt in formats:
+        # Pula parquet se não tiver pyarrow
+        if 'parquet' in fmt and not parquet_available:
+            continue
+            
         if fmt == 'csv_full':
             path = output_dir / 'messages_full.csv'
             cols = filter_columns(COLUMNS_FULL)
@@ -802,11 +818,33 @@ def run_wrangling_pipeline(
         
         elif step_id == 'transcriptions':
             if transcription_file:
-                df_trans = load_transcriptions(Path(transcription_file))
-                df = merge_transcriptions(df, df_trans)
-                stats['com_transcricao'] = df['tem_transcricao'].sum()
-                if show_progress:
-                    print(f"✅ ({stats['com_transcricao']:,} transcrições)")
+                trans_path = Path(transcription_file)
+                
+                if trans_path.exists():
+                    # Arquivo existe — carrega e faz merge
+                    df_trans = load_transcriptions(trans_path)
+                    df = merge_transcriptions(df, df_trans)
+                    stats['com_transcricao'] = df['tem_transcricao'].sum()
+                    if show_progress:
+                        print(f"✅ ({stats['com_transcricao']:,} transcrições)")
+                else:
+                    # Arquivo configurado mas não existe — orienta o usuário
+                    if show_progress:
+                        print(f"⚠️ Arquivo não encontrado")
+                        print(f"\n   ┌─────────────────────────────────────────────────────┐")
+                        print(f"   │  Para transcrever os áudios/vídeos:                 │")
+                        print(f"   │  1. Execute: python scripts/transcribe_media.py    │")
+                        print(f"   │  2. Aguarde o processamento (~40 min)              │")
+                        print(f"   │  3. Rode este notebook novamente                   │")
+                        print(f"   └─────────────────────────────────────────────────────┘")
+                        print(f"   Esperado em: {trans_path}\n")
+                    
+                    # Continua sem transcrições
+                    df['tem_transcricao'] = False
+                    df['transcricao'] = None
+                    df['transcription_status'] = None
+                    df['is_synthetic'] = False
+                    stats['com_transcricao'] = 0
             else:
                 df['tem_transcricao'] = False
                 df['transcricao'] = None

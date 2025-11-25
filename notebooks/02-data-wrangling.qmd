@@ -85,19 +85,20 @@ PIPELINE_ORDER = [
 # Arquivo de entrada (saída do cleaning)
 INPUT_FILE = PATHS['interim'] / 'raw-data_cln7.txt'
 
-# Diretório de saída
+# Diretório de saída (já inclui DATA_FOLDER via config.py)
 OUTPUT_DIR = PATHS['processed']
 
-# Diretório com arquivos de mídia
-MEDIA_DIR = PATHS['raw'].parent / 'media'
+# Diretório com arquivos de mídia (já definido no config.py)
+MEDIA_DIR = PATHS['media']
 
-# Arquivo com transcrições existentes (None para pular)
-TRANSCRIPTION_FILE = None  # ou Path('caminho/para/transcriptions.csv')
+# Arquivo com transcrições existentes
+# Gerado por: python scripts/transcribe_media.py
+TRANSCRIPTION_FILE = OUTPUT_DIR / 'transcriptions.csv'
 
 print(f"📄 Entrada: {INPUT_FILE}")
 print(f"📂 Saída: {OUTPUT_DIR}")
 print(f"🎬 Mídia: {MEDIA_DIR}")
-print(f"🎙️ Transcrições: {TRANSCRIPTION_FILE or 'Não configurado'}")
+print(f"🎙️ Transcrições: {TRANSCRIPTION_FILE}")
 ```
 
 ------------------------------------------------------------------------
